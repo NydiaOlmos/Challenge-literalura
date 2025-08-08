@@ -51,6 +51,7 @@ public class Principal {
                     mostrarTodosAutores();
                     break;
                 case 4:
+                    autoresEpoca();
                     break;
                 case 5:
                     break;
@@ -109,5 +110,16 @@ public class Principal {
     private void mostrarTodosAutores() {
         List<Autor> listaAutores = autorRepository.findAll();
         listaAutores.forEach(System.out::println);
+    }
+
+    private void autoresEpoca() {
+        System.out.println("Ingrese el año:");
+        int epoca = Integer.parseInt(entradaDatos.nextLine());
+        List<Autor> autoresVivos = autorRepository.filtrarPorEpoca(epoca);
+        if (!autoresVivos.isEmpty()) {
+            autoresVivos.forEach(System.out::println);
+        } else {
+            System.out.println("No hay autores vivos en ese año.");
+        }
     }
 }
