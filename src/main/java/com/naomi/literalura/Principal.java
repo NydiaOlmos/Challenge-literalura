@@ -65,6 +65,9 @@ public class Principal {
                 case 6:
                     mostrarEstadisticasDescargas();
                     break;
+                case 7:
+                    top10Libros();
+                    break;
                 case 0:
                     System.out.println("Terminando programa...");
                     break;
@@ -169,7 +172,13 @@ public class Principal {
         System.out.println("Total de descargas: " + estadisticas.getSum());
     }
 
-    private void top10Libros() {}
+    private void top10Libros() {
+        List<Libro> topLibros = libroRepository.top10Descargas();
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(i + ".- " + topLibros.get(i-1).getTitulo() +
+                    " con " + topLibros.get(i-1).getDescargas() + " descargas.");
+        }
+    }
 
     private void buscarAutorNombre() {}
 
