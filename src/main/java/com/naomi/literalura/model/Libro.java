@@ -14,7 +14,7 @@ public class Libro {
     private Integer id;
     @Column(unique = true)
     private String titulo;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "libro_autor",
             joinColumns = @JoinColumn(name = "libro_id"),
@@ -31,9 +31,6 @@ public class Libro {
         this.titulo = datosLibro.titulo();
         this.lenguajes = String.join(",", datosLibro.lenguajes());
         this.descargas = datosLibro.descargas();
-//        this.autores = datosLibro.autores().stream()
-//                .map(Autor::new)
-//                .toList();
     }
 
     @Override

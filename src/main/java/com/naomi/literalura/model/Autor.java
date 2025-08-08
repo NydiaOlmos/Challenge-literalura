@@ -17,7 +17,7 @@ public class Autor {
     private String nombre;
     private Integer fechaNacimiento;
     private Integer fechaDefuncion;
-    @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "autores", fetch = FetchType.EAGER)
     private List<Libro> libros = new ArrayList<>();
 
     public Autor(){}

@@ -45,8 +45,10 @@ public class Principal {
                     buscarLibro();
                     break;
                 case 2:
+                    mostrarTodosLibros();
                     break;
                 case 3:
+                    mostrarTodosAutores();
                     break;
                 case 4:
                     break;
@@ -61,19 +63,7 @@ public class Principal {
         }
     }
 
-    private void buscarLibro() {
-        System.out.println("Escribe el nombre del libro que deseas búscar:");
-        String nombreLibro = entradaDatos.nextLine();
-        var json = consumoApi.consultaGutendex("/?search=" + nombreLibro.replace(" ", "+"));
-        Datos libros = conversorDatos.obtenerDatos(json, Datos.class);
-        DatosLibro datosLibro = libros.libros().getFirst();
-//        System.out.println(datosLibro);
-        Libro libroResultado = new Libro(datosLibro);
-        agregarAutores(datosLibro, libroResultado);
-        System.out.println(libroResultado);
-        guardarLibrosAutores(libroResultado);
-    }
-
+    // Metodos extras
     private void agregarAutores(DatosLibro datosLibro, Libro libroResultado){
         List<Autor> autoresLibro = new ArrayList<>();
         for(DatosAutor datosAutor : datosLibro.autores()){
@@ -90,8 +80,34 @@ public class Principal {
 
     private void guardarLibrosAutores(Libro libro) {
         Libro libroExistente = libroRepository.findByTitulo(libro.getTitulo());
-        if(libroExistente != null) {
+        if(libroExistente == null) {
             libroRepository.save(libro);
+        } else {
+            System.out.println("El libro no se a guardado porque ya existe dentro de la base de datos.");
         }
+    }
+
+    //Metodos Switch
+    private void buscarLibro() {
+        System.out.println("Escribe el nombre del libro que deseas búscar:");
+        String nombreLibro = entradaDatos.nextLine();
+        var json = consumoApi.consultaGutendex("/?search=" + nombreLibro.replace(" ", "+"));
+        Datos libros = conversorDatos.obtenerDatos(json, Datos.class);
+        DatosLibro datosLibro = libros.libros().getFirst();
+//        System.out.println(datosLibro);
+        Libro libroResultado = new Libro(datosLibro);
+        agregarAutores(datosLibro, libroResultado);
+        System.out.println(libroResultado);
+        guardarLibrosAutores(libroResultado);
+    }
+
+    private void mostrarTodosLibros() {
+        List<Libro> listaLibros = libroRepository.findAll();
+        listaLibros.forEach(System.out::println);
+    }
+
+    private void mostrarTodosAutores() {
+        List<Autor> listaAutores = autorRepository.findAll();
+        listaAutores.forEach(System.out::println);
     }
 }
