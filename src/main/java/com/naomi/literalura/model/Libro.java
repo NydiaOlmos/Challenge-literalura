@@ -13,7 +13,7 @@ public class Libro {
     @Id
     private Integer id;
     private String titulo;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "libro_autor",
             joinColumns = @JoinColumn(name = "libro_id"),
