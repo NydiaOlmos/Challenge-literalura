@@ -9,6 +9,8 @@ import java.util.List;
 public interface LibroRepository extends JpaRepository<Libro, Integer> {
     Libro findByTitulo(String nombreLibro);
 
+    Libro findByDescargas(Integer descargas);
+
     @Query("SELECT l FROM Libro l WHERE l.lenguajes ILIKE %:idioma%")
     List<Libro> librosPorIdioma(String idioma);
 }

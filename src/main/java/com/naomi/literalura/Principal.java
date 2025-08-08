@@ -7,8 +7,10 @@ import com.naomi.literalura.service.ConsumoAPI;
 import com.naomi.literalura.service.ConvierteDatos;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
     private final ConsumoAPI consumoApi = new ConsumoAPI();
@@ -33,6 +35,10 @@ public class Principal {
                     3- Lista autores registrados
                     4- Lista autores vivos en un determinado año
                     5- Lista libros por idioma
+                    6- Estadísticas de descarga
+                    7- Top 10 libros más descargados
+                    8- Buscar autor por nombre
+                    9- Lista autores por cantidad de libros escritos
                     
                     0- Salir
                     """;
@@ -55,6 +61,9 @@ public class Principal {
                     break;
                 case 5:
                     mostrarLibroIdioma();
+                    break;
+                case 6:
+                    mostrarEstadisticasDescargas();
                     break;
                 case 0:
                     System.out.println("Terminando programa...");
@@ -141,4 +150,28 @@ public class Principal {
             System.out.println("No hay libros en ese idioma");
         }
     }
+
+    private void mostrarEstadisticasDescargas() {
+        List<Libro> libros = libroRepository.findAll();
+        IntSummaryStatistics estadisticas = libros.stream()
+                .filter(d -> d.getDescargas() > 0)
+                .collect(Collectors.summarizingInt(Libro::getDescargas));
+
+        String libroMasDescargado = (libroRepository.findByDescargas(estadisticas.getMax()).getTitulo());
+        String libroMenosDescargado = (libroRepository.findByDescargas(estadisticas.getMin()).getTitulo());
+
+        System.out.println("Media de descargas: " + estadisticas.getAverage());
+        System.out.println("El libro con el mayor número de descargas: \"" + libroMasDescargado +
+                "\" con " + estadisticas.getMax() +" descargas.");
+        System.out.println("El libro con el menor número de descargas: \"" + libroMenosDescargado +
+                "\" con " + estadisticas.getMin() +" descargas.");
+        System.out.println("Total de registros: " + estadisticas.getCount());
+        System.out.println("Total de descargas: " + estadisticas.getSum());
+    }
+
+    private void top10Libros() {}
+
+    private void buscarAutorNombre() {}
+
+    private void mostrarAutoresLibros() {}
 }
