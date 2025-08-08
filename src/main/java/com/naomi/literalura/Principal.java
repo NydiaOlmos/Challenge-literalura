@@ -51,9 +51,10 @@ public class Principal {
                     mostrarTodosAutores();
                     break;
                 case 4:
-                    autoresEpoca();
+                    mostrarAutoresEpoca();
                     break;
                 case 5:
+                    mostrarLibroIdioma();
                     break;
                 case 0:
                     System.out.println("Terminando programa...");
@@ -112,7 +113,7 @@ public class Principal {
         listaAutores.forEach(System.out::println);
     }
 
-    private void autoresEpoca() {
+    private void mostrarAutoresEpoca() {
         System.out.println("Ingrese el año:");
         int epoca = Integer.parseInt(entradaDatos.nextLine());
         List<Autor> autoresVivos = autorRepository.filtrarPorEpoca(epoca);
@@ -120,6 +121,24 @@ public class Principal {
             autoresVivos.forEach(System.out::println);
         } else {
             System.out.println("No hay autores vivos en ese año.");
+        }
+    }
+
+    private void mostrarLibroIdioma(){
+        System.out.println("""
+                
+                Ingresa el idioma para buscar los libros:
+                es - español
+                en - inglés
+                fr - francés
+                pt - portugués
+                """);
+        String idioma = entradaDatos.nextLine();
+        List<Libro> librosIdioma = libroRepository.librosPorIdioma(idioma);
+        if(!librosIdioma.isEmpty()) {
+            librosIdioma.forEach(System.out::println);
+        } else {
+            System.out.println("No hay libros en ese idioma");
         }
     }
 }
