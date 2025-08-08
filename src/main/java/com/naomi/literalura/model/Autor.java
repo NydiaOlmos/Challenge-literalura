@@ -13,6 +13,7 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     private String nombre;
     private Integer fechaNacimiento;
     private Integer fechaDefuncion;
@@ -31,7 +32,7 @@ public class Autor {
     public String toString() {
         StringBuilder librosString = new StringBuilder();
         libros.forEach(a -> librosString.append(a.getTitulo()).append("; "));
-        return "---- Autor ----" +
+        return "\n---- Autor ----" +
                 "\nNombre: " + nombre +
                 "\nFecha de nacimiento: " + fechaNacimiento +
                 "\nFecha de fallecimiento: " + fechaDefuncion +

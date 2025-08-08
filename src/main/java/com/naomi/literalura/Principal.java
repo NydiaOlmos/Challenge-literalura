@@ -19,37 +19,40 @@ public class Principal {
     }
 
     public void mostrarMenu(){
-        String menu = """
-                Elija la opción a través de su número:
-                1- Buscar libro por título(API)
-                2- Lista libros registrados
-                3- Lista autores registrados
-                4- Lista autores vivos en un determinado año
-                5- Lista libros por idioma
-                
-                0- Salir
-                """;
+        var opcion = -1;
+        while (opcion != 0) {
+            String menu = """
+                    Elija la opción a través de su número:
+                    1- Buscar libro por título(API)
+                    2- Lista libros registrados
+                    3- Lista autores registrados
+                    4- Lista autores vivos en un determinado año
+                    5- Lista libros por idioma
+                    
+                    0- Salir
+                    """;
 
-        System.out.println(menu);
-        int opcion = Integer.parseInt(entradaDatos.nextLine());
+            System.out.println(menu);
+            opcion = Integer.parseInt(entradaDatos.nextLine());
 
-        switch (opcion){
-            case 1:
-                buscarLibro();
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 0:
-                System.out.println("Terminando programa...");
-                break;
-            default:
-                System.out.println("Opción inválida");
+            switch (opcion){
+                case 1:
+                    buscarLibro();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 0:
+                    System.out.println("Terminando programa...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
         }
     }
 
@@ -59,8 +62,7 @@ public class Principal {
         var json = consumoApi.consultaGutendex("/?search=" + nombreLibro.replace(" ", "+"));
         Datos libros = conversorDatos.obtenerDatos(json, Datos.class);
         DatosLibro datosLibro = libros.libros().getFirst();
-        System.out.println(datosLibro);
-//        Libro libroResultado = guardarLibroConAutores(datosLibro);
+//        System.out.println(datosLibro);
         Libro libroResultado = new Libro(datosLibro);
         System.out.println(libroResultado);
         libroRepository.save(libroResultado);

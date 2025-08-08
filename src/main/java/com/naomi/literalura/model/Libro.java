@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Libro {
     @Id
     private Integer id;
+    @Column(unique = true)
     private String titulo;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -40,7 +41,7 @@ public class Libro {
         StringBuilder autoresString = new StringBuilder();
         autores.forEach(a -> autoresString.append(a.getNombre()).append("; "));
 
-        return "------ LIBRO ------" +
+        return "\n------ LIBRO ------" +
                 "\nTitulo: " + titulo +
                 "\nAutores: " + autoresString +
                 "\nLenguajes: " + lenguajes +
