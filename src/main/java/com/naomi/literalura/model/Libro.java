@@ -19,7 +19,7 @@ public class Libro {
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
-    private List<Autor> autores = new ArrayList<>();
+    private List<Autor> autores;
     private String lenguajes;
     private Integer descargas;
 
@@ -30,16 +30,9 @@ public class Libro {
         this.titulo = datosLibro.titulo();
         this.lenguajes = String.join(",", datosLibro.lenguajes());
         this.descargas = datosLibro.descargas();
-    }
-
-    public void agregarAutor(Autor autor) {
-        this.autores.add(autor);
-        autor.getLibros().add(this);
-    }
-
-    public void eliminarAutor(Autor autor) {
-        this.autores.remove(autor);
-        autor.getLibros().remove(this);
+        this.autores = datosLibro.autores().stream()
+                .map(Autor::new)
+                .toList();
     }
 
     @Override

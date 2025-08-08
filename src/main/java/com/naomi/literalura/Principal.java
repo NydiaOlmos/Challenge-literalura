@@ -12,8 +12,11 @@ public class Principal {
     private final ConsumoAPI consumoApi = new ConsumoAPI();
     private final ConvierteDatos conversorDatos = new ConvierteDatos();
     private final Scanner entradaDatos = new Scanner(System.in);
-    private LibroRepository libroRepository;
-    private AutorRepository autorRepository;
+    private final LibroRepository libroRepository;
+
+    public Principal (LibroRepository libroRepository) {
+        this.libroRepository = libroRepository;
+    }
 
     public void mostrarMenu(){
         String menu = """
@@ -61,26 +64,5 @@ public class Principal {
         Libro libroResultado = new Libro(datosLibro);
         System.out.println(libroResultado);
         libroRepository.save(libroResultado);
-    }
-
-
-
-    private Libro guardarLibroConAutores(DatosLibro datosLibro) {
-        Libro libro = new Libro(datosLibro);
-        // Procesar cada autor
-        for (DatosAutor datosAutor : datosLibro.autores()) {
-            // Buscar si el autor ya existe
-            Autor autor = autorRepository.findByNombre(datosAutor.nombre())
-                    .orElseGet(() -> {
-                        Autor nuevoAutor = new Autor(datosAutor);
-                        return autorRepository.save(nuevoAutor);
-                    });
-
-            // Establecer la relación desde el lado dueño (Libro)
-            libro.agregarAutor(autor);
-        }
-        // Guardar el libro (esto propagará los cambios)
-        libroRepository.save(libro);
-        return libro;
     }
 }
