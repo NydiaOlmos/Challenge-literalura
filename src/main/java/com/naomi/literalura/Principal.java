@@ -6,6 +6,8 @@ import com.naomi.literalura.repository.LibroRepository;
 import com.naomi.literalura.service.ConsumoAPI;
 import com.naomi.literalura.service.ConvierteDatos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -13,15 +15,18 @@ public class Principal {
     private final ConvierteDatos conversorDatos = new ConvierteDatos();
     private final Scanner entradaDatos = new Scanner(System.in);
     private final LibroRepository libroRepository;
+    private final AutorRepository autorRepository;
 
-    public Principal (LibroRepository libroRepository) {
+    public Principal (LibroRepository libroRepository, AutorRepository autorRepository) {
         this.libroRepository = libroRepository;
+        this.autorRepository = autorRepository;
     }
 
     public void mostrarMenu(){
         var opcion = -1;
         while (opcion != 0) {
             String menu = """
+                    
                     Elija la opción a través de su número:
                     1- Buscar libro por título(API)
                     2- Lista libros registrados
@@ -64,7 +69,29 @@ public class Principal {
         DatosLibro datosLibro = libros.libros().getFirst();
 //        System.out.println(datosLibro);
         Libro libroResultado = new Libro(datosLibro);
+        agregarAutores(datosLibro, libroResultado);
         System.out.println(libroResultado);
-        libroRepository.save(libroResultado);
+        guardarLibrosAutores(libroResultado);
+    }
+
+    private void agregarAutores(DatosLibro datosLibro, Libro libroResultado){
+        List<Autor> autoresLibro = new ArrayList<>();
+        for(DatosAutor datosAutor : datosLibro.autores()){
+            Autor autorExistente = autorRepository.findByNombre(datosAutor.nombre());
+            if(autorExistente != null) {
+                autoresLibro.add(autorExistente);
+            } else {
+                Autor nuevoAutor = new Autor(datosAutor);
+                autoresLibro.add(nuevoAutor);
+            }
+        }
+        libroResultado.setAutores(autoresLibro);
+    }
+
+    private void guardarLibrosAutores(Libro libro) {
+        Libro libroExistente = libroRepository.findByTitulo(libro.getTitulo());
+        if(libroExistente != null) {
+            libroRepository.save(libro);
+        }
     }
 }

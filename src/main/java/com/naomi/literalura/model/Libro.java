@@ -31,9 +31,9 @@ public class Libro {
         this.titulo = datosLibro.titulo();
         this.lenguajes = String.join(",", datosLibro.lenguajes());
         this.descargas = datosLibro.descargas();
-        this.autores = datosLibro.autores().stream()
-                .map(Autor::new)
-                .toList();
+//        this.autores = datosLibro.autores().stream()
+//                .map(Autor::new)
+//                .toList();
     }
 
     @Override
