@@ -68,6 +68,9 @@ public class Principal {
                 case 7:
                     top10Libros();
                     break;
+                case 8:
+                    buscarAutorNombre();
+                    break;
                 case 0:
                     System.out.println("Terminando programa...");
                     break;
@@ -180,7 +183,18 @@ public class Principal {
         }
     }
 
-    private void buscarAutorNombre() {}
+    private void buscarAutorNombre() {
+        System.out.println("Recuerda que cada nombre debe de iniciar con mayúscula y tener los acentos pertinentes.");
+        System.out.println("Ingresa el nombre del autor que deseas buscar: ");
+        String autorNombre = entradaDatos.nextLine();
+
+        Autor autorResultante = autorRepository.findByNombreContaining(autorNombre);
+        if(autorResultante != null) {
+            System.out.println(autorResultante);
+        } else {
+            System.out.println("No se encontró el autor buscado");
+        }
+    }
 
     private void mostrarAutoresLibros() {}
 }
