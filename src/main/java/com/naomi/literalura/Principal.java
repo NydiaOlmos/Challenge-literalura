@@ -38,7 +38,7 @@ public class Principal {
                     6- Estadísticas de descarga
                     7- Top 10 libros más descargados
                     8- Buscar autor por nombre
-                    9- Lista autores por cantidad de libros escritos
+                    9- Lista autores por cantidad minima de libros escritos
                     
                     0- Salir
                     """;
@@ -70,6 +70,9 @@ public class Principal {
                     break;
                 case 8:
                     buscarAutorNombre();
+                    break;
+                case 9:
+                    mostrarAutoresLibros();
                     break;
                 case 0:
                     System.out.println("Terminando programa...");
@@ -196,5 +199,14 @@ public class Principal {
         }
     }
 
-    private void mostrarAutoresLibros() {}
+    private void mostrarAutoresLibros() {
+        System.out.println("Ingresa el mínimo de libros que los autores debieron escribir: ");
+        int minimo = Integer.parseInt(entradaDatos.nextLine());
+        List<Autor> autores = autorRepository.busquedaMinimoLibros(minimo);
+        if (autores != null){
+            autores.forEach(System.out::println);
+        } else {
+            System.out.println("No hay autores con ese mínimo de libros escritos.");
+        }
+    }
 }
