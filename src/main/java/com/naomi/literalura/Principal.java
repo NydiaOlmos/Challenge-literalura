@@ -27,58 +27,62 @@ public class Principal {
     public void mostrarMenu(){
         var opcion = -1;
         while (opcion != 0) {
-            String menu = """
-                    
-                    Elija la opción a través de su número:
-                    1- Buscar libro por título(API)
-                    2- Lista libros registrados
-                    3- Lista autores registrados
-                    4- Lista autores vivos en un determinado año
-                    5- Lista libros por idioma
-                    6- Estadísticas de descarga
-                    7- Top 10 libros más descargados
-                    8- Buscar autor por nombre
-                    9- Lista autores por cantidad minima de libros escritos
-                    
-                    0- Salir
-                    """;
+            try{
+                String menu = """
+                        
+                        Elija la opción a través de su número:
+                        1- Buscar libro por título(API)
+                        2- Lista libros registrados
+                        3- Lista autores registrados
+                        4- Lista autores vivos en un determinado año
+                        5- Lista libros por idioma
+                        6- Estadísticas de descarga
+                        7- Top 10 libros más descargados
+                        8- Buscar autor por nombre
+                        9- Lista autores por cantidad minima de libros escritos
+                        
+                        0- Salir
+                        """;
 
-            System.out.println(menu);
-            opcion = Integer.parseInt(entradaDatos.nextLine());
+                System.out.println(menu);
+                opcion = Integer.parseInt(entradaDatos.nextLine());
 
-            switch (opcion){
-                case 1:
-                    buscarLibro();
-                    break;
-                case 2:
-                    mostrarTodosLibros();
-                    break;
-                case 3:
-                    mostrarTodosAutores();
-                    break;
-                case 4:
-                    mostrarAutoresEpoca();
-                    break;
-                case 5:
-                    mostrarLibroIdioma();
-                    break;
-                case 6:
-                    mostrarEstadisticasDescargas();
-                    break;
-                case 7:
-                    top10Libros();
-                    break;
-                case 8:
-                    buscarAutorNombre();
-                    break;
-                case 9:
-                    mostrarAutoresLibros();
-                    break;
-                case 0:
-                    System.out.println("Terminando programa...");
-                    break;
-                default:
-                    System.out.println("Opción inválida");
+                switch (opcion){
+                    case 1:
+                        buscarLibro();
+                        break;
+                    case 2:
+                        mostrarTodosLibros();
+                        break;
+                    case 3:
+                        mostrarTodosAutores();
+                        break;
+                    case 4:
+                        mostrarAutoresEpoca();
+                        break;
+                    case 5:
+                        mostrarLibroIdioma();
+                        break;
+                    case 6:
+                        mostrarEstadisticasDescargas();
+                        break;
+                    case 7:
+                        top10Libros();
+                        break;
+                    case 8:
+                        buscarAutorNombre();
+                        break;
+                    case 9:
+                        mostrarAutoresLibros();
+                        break;
+                    case 0:
+                        System.out.println("Terminando programa...");
+                        break;
+                    default:
+                        System.out.println("Opción inválida");
+                }
+            } catch (RuntimeException e) {
+                System.out.println("Ocurrió un error, vuelve a intentarlo.");
             }
         }
     }
